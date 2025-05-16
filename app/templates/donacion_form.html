@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Registrar Donación - Sistema de Gestión de Donaciones{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h4><i class="fas fa-gift me-2"></i>Registrar Nueva Donación</h4>
+            </div>
+            <div class="card-body">
+                <form action="/donaciones/nueva" method="post">
+                    <div class="mb-3">
+                        <label for="tipo" class="form-label">Tipo de Donación</label>
+                        <select class="form-select" id="tipo" name="tipo" required>
+                            <option value="" selected disabled>Seleccione un tipo</option>
+                            <option value="Alimentos">Alimentos</option>
+                            <option value="Ropa">Ropa</option>
+                            <option value="Útiles Escolares">Útiles Escolares</option>
+                            <option value="Artículos de Limpieza">Artículos de Limpieza</option>
+                            <option value="Medicamentos">Medicamentos</option>
+                            <option value="Otros">Otros</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="descripcion" class="form-label">Descripción</label>
+                        <textarea class="form-control" id="descripcion" name="descripcion" rows="3" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="cantidad" class="form-label">Cantidad</label>
+                        <input type="number" class="form-control" id="cantidad" name="cantidad" min="1" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="urgencia" class="form-label">Nivel de Urgencia</label>
+                        <select class="form-select" id="urgencia" name="urgencia" required>
+                            <option value="" selected disabled>Seleccione un nivel</option>
+                            <option value="Alta">Alta</option>
+                            <option value="Media">Media</option>
+                            <option value="Baja">Baja</option>
+                        </select>
+                    </div>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="/donaciones" class="btn btn-secondary me-md-2">Cancelar</a>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-save me-1"></i> Guardar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

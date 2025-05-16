@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Registrar Comedor - Sistema de Gestión de Donaciones{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4><i class="fas fa-utensils me-2"></i>Registrar Nuevo Comedor</h4>
+            </div>
+            <div class="card-body">
+                <form action="/comedores/nuevo" method="post">
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Nombre del Comedor</label>
+                        <input type="text" class="form-control" id="nombre" name="nombre" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="barrio" class="form-label">Barrio</label>
+                        <input type="text" class="form-control" id="barrio" name="barrio" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="direccion" class="form-label">Dirección</label>
+                        <input type="text" class="form-control" id="direccion" name="direccion" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="responsable" class="form-label">Persona Responsable</label>
+                        <input type="text" class="form-control" id="responsable" name="responsable" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="telefono" class="form-label">Teléfono de Contacto</label>
+                        <input type="tel" class="form-control" id="telefono" name="telefono" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Correo Electrónico</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="/comedores" class="btn btn-secondary me-md-2">Cancelar</a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-1"></i> Guardar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

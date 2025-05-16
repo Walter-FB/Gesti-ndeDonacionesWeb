@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block title %}Notificaciones - {{ comedor.nombre }}{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Inicio</a></li>
+                <li class="breadcrumb-item"><a href="/comedores">Comedores</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Notificaciones de {{ comedor.nombre }}</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h4><i class="fas fa-bell me-2"></i>Notificaciones para {{ comedor.nombre }}</h4>
+            </div>
+            <div class="card-body">
+                <div class="mb-4">
+                    <h5>Información del Comedor</h5>
+                    <p><strong>Barrio:</strong> {{ comedor.barrio }}</p>
+                    <p><strong>Dirección:</strong> {{ comedor.direccion }}</p>
+                    <p><strong>Responsable:</strong> {{ comedor.responsable }}</p>
+                    <p><strong>Contacto:</strong> {{ comedor.telefono }} | {{ comedor.email }}</p>
+                </div>
+                
+                <hr>
+                
+                <h5>Donaciones Disponibles</h5>
+                {% if notificaciones %}
+                <div class="list-group mt-3">
+                    {% for notificacion in notificaciones %}
+                    <div class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">{{ notificacion.donacion.tipo }}</h5>
+                            <small class="
+                                {% if notificacion.donacion.urgencia == 'Alta' %}urgencia-alta{% endif %}
+                                {% if notificacion.donacion.urgencia == 'Media' %}urgencia-media{% endif %}
+                                {% if notificacion.donacion.urgencia == 'Baja' %}urgencia-baja{% endif %}
+                            ">
+                                Urgencia: {{ notificacion.donacion.urgencia }}
+                            </small>
+                        </div>
+                        <p class="mb-1">{{ notificacion.donacion.descripcion }}</p>
+                        <p><small>Cantidad: {{ notificacion.donacion.cantidad }}</small></p>
+                        <p><small>Fecha de notificación: {{ notificacion.fecha_envio.strftime('%d/%m/%Y %H:%M') }}</small></p>
+                        
+                        <div class="d-flex justify-content-end">
+                            <button 
+                                class="btn btn-success btn-sm aceptar-donacion" 
+                                data-donacion-id="{{ notificacion.donacion.id }}" 
+                                data-comedor-id="{{ comedor.id }}"
+                            >
+                                <i class="fas fa-check me-1"></i> Aceptar Donación
+                            </button>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle me-1"></i> No hay notificaciones pendientes para este comedor.
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Obtener todos los botones de aceptar donación
+        const botonesAceptar = document.querySelectorAll('.aceptar-donacion');
+        
+        // Agregar evento click a cada botón
+        botonesAceptar.forEach(function(boton) {
+            boton.addEventListener('click', function() {
+                const donacionId = this.getAttribute('data-donacion-id');
+                const comedorId = this.getAttribute('data-comedor-id');
+                
+                // Realizar la petición a la API
+                fetch(`/api/donaciones/${donacionId}/aceptar/${comedorId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    }
+                    throw new Error('Error al aceptar la donación');
+                })
+                .then(data => {
+                    alert('Donación aceptada correctamente');
+                    // Recargar la página para actualizar la lista de notificaciones
+                    window.location.reload();
+                })
+                .catch(error => {
+                    alert('Error: ' + error.message);
+                });
+            });
+        });
+    });
+</script>
+{% endblock %} 

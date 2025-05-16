@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Comedores - Sistema de Gestión de Donaciones{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-8">
+        <h2><i class="fas fa-utensils me-2"></i>Comedores Comunitarios</h2>
+    </div>
+    <div class="col-md-4 text-end">
+        <a href="/comedores/nuevo" class="btn btn-primary">
+            <i class="fas fa-plus-circle me-1"></i> Nuevo Comedor
+        </a>
+    </div>
+</div>
+
+{% if comedores %}
+<div class="row">
+    {% for comedor in comedores %}
+    <div class="col-md-6 mb-4">
+        <div class="card h-100">
+            <div class="card-header bg-primary text-white">
+                {{ comedor.nombre }}
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">{{ comedor.barrio }}</h5>
+                <p class="card-text"><strong>Dirección:</strong> {{ comedor.direccion }}</p>
+                <p class="card-text"><strong>Responsable:</strong> {{ comedor.responsable }}</p>
+                <p class="card-text">
+                    <strong>Contacto:</strong><br>
+                    <i class="fas fa-phone me-1"></i> {{ comedor.telefono }}<br>
+                    <i class="fas fa-envelope me-1"></i> {{ comedor.email }}
+                </p>
+            </div>
+            <div class="card-footer">
+                <a href="/comedores/{{ comedor.id }}/notificaciones" class="btn btn-info">
+                    <i class="fas fa-bell me-1"></i> Notificaciones
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="alert alert-info">
+    <i class="fas fa-info-circle me-1"></i> No hay comedores registrados aún. ¡Registre uno nuevo!
+</div>
+{% endif %}
+{% endblock %} 
